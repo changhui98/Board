@@ -9,10 +9,10 @@
     {{#members}}
     <tr>
         <td>{{id}}</td>
-        <td>{{email}}</td>
+        <td><a href="/members/{{id}}">{{email}}</td>
         <td>{{password}}</td>
     </tr>
     {{/members}}
 </table>
-<a href="/members/new">회원가입</a>
+<a href="/members/new">new Member</a>
 {{>layouts/footer}}

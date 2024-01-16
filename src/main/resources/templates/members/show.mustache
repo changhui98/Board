@@ -1,0 +1,11 @@
+{{>layouts/header}}
+
+<h1>마이페이지</h1>
+{{#member}}
+    {{email}}님 어서오세요.
+
+<a href="/members/{{id}}/edit" clsss="btn btn-primary">수정하기</a>
+<a href="/members" class="btn btn-primary">List</a>
+
+{{/member}}
+{{>layouts/footer}}
