@@ -1,12 +1,13 @@
 package com.example.firstproject.api;
 
+import com.example.firstproject.dto.ArticleForm;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,13 +41,31 @@ public class ArticleApiController {
 //
 //        return articleRepository.findById(id).orElse(null);
 //    }
+
+    @PostMapping("/api/articles")
+    public ResponseEntity<Article> create(@RequestBody ArticleForm dto){
+        Article created = articleService.create(dto);
+        return (created != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(created):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 //    // POST
 //    @PostMapping("/api/articles")
 //    public Article create(@RequestBody ArticleForm dto){
 //        Article article = dto.toEntity();
 //        return articleRepository.save(article);
 //    }
-//
+
+    @PatchMapping("/api/articles/{id}")
+    public ResponseEntity<Article> update(@PathVariable Long id,
+                                          @RequestBody ArticleForm dto){
+        Article updated = articleService.update(id, dto);   // 서비스를 통해 게시글 수정
+        return ( updated != null) ?                         // 수정되면 정상, 안 되면 오류 응답
+                ResponseEntity.status(HttpStatus.OK).body(updated):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+
 //    // PATCH
 //    @PatchMapping("/api/articles/{id}")
 //    public ResponseEntity<Article> update(@PathVariable Long id,
@@ -67,8 +86,14 @@ public class ArticleApiController {
 //        Article updated = articleRepository.save(target); // 수정 내용 DB에 최종 저장
 //        return ResponseEntity.status(HttpStatus.OK).body(updated);
 //    }
-//
-//
+
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Article> delete(@PathVariable Long id){
+        Article deleted = articleService.delete(id);
+        return (deleted != null) ?
+                ResponseEntity.status(HttpStatus.NO_CONTENT).build() :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 //    // DELETE
 //    @DeleteMapping("/api/articles/{id}")
 //    public ResponseEntity<Article> delete(@PathVariable Long id) {
@@ -86,5 +111,14 @@ public class ArticleApiController {
 //
 //
 //    }
+
+    @PostMapping("/api/transaction-test") // 여러 게시글 생성 요청 접수
+    public ResponseEntity<List<Article>> transactionTest(@RequestBody List<ArticleForm> dtos){
+        List<Article> createdList = articleService.createArticles(dtos); // 서비스 호출
+        return (createdList != null) ?
+                ResponseEntity.status(HttpStatus.OK).body(createdList) :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+    } // transactionTest() 메서드 정의
 }
 
