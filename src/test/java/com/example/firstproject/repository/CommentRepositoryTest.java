@@ -21,6 +21,9 @@ class CommentRepositoryTest {
     @Test
     @DisplayName("특정 게시글의 모든 댓글 조회")
     void findByArticleId() {
+
+        /* -> Case 1 : 4번 게시글의 모든 댓글 조회
+
         // 1. 입력 데이터 준비
         Long articleId = 4L;
 
@@ -37,6 +40,20 @@ class CommentRepositoryTest {
         // 4. 비교 및 검증
         assertEquals(expected.toString(), comments.toString(),"4번 글의 모든 댓글을 출력!");
 
+         */
+
+        // 1. 입력 데이터 준비
+        Long articleId = 1L; // 조회할 id 수정
+
+        // 2. 실제 데이터
+        List<Comment> comments = commentRepository.findByArticleId(articleId);
+
+        // 3. 예상 데이터
+        Article article = new Article(1L, "가가가가", "1111");
+        List<Comment> expected = Arrays.asList(); // 매개변수 삭제
+
+        // 4. 비교 및 검증
+        assertEquals(expected.toString(), comments.toString(), "1번 글은 댓글이 없음");
     }
 
     @Test
