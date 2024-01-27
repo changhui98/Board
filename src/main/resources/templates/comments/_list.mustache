@@ -1,7 +1,7 @@
 <div id="comments-list">
     {{#commentDtos}}
         <div class="card m-2" id="comments-{{id}}">
-            <div class="card-header"></div>
+            <div class="card-header">
                 {{nickname}}
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-sm btn-outline-primary"
@@ -13,6 +13,9 @@
                     data-bs-article-id="{{articleId}}">
                 수정
             </button>
+            <!-- 댓글 삭제 버튼 -->
+            <button type="button" class="btn btn-sm btn-outline-danger comment-delete-btn">삭제</button>
+            </div>
             <div class="card-body"></div>
                 {{body}}
         </div>
@@ -48,6 +51,7 @@
         </div>
     </div>
 </div>
+<!-- 모달 이벤트 처리 -->
 <script>
     {
     const commentEditModal = document.querySelector("#comment-edit-modal");
@@ -93,5 +97,17 @@
         });
     });
 
+    }
+</script>
+<!-- 댓글 삭제 -->
+<script>
+    {
+    const commentDeleteBtns = document.querySelectorAll(".comment-delete-btn");
+
+    commentDeleteBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            console.log("삭제 버튼이 클릭됐습니다.");
+        });
+    });
     }
 </script>
